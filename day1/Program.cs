@@ -14,9 +14,11 @@ namespace day1
         static void PartTwo() {
             var depths = new List<int>();
             var count = 0;
-            using (var reader = File.OpenText("/home/thomas/Development/adventofcode_2021/day1/input1.txt")) {
-                while (reader.Peek() > -1)
+
+            using (var reader = File.OpenText("input1.txt")) {
+                while (reader.Peek() > -1) {
                     depths.Add(int.Parse(reader.ReadLine()));
+                }
             }
 
             for (int i = 3 ; i< depths.Count ; i++) {
