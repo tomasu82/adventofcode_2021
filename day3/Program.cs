@@ -101,24 +101,6 @@ namespace day3
             return input[start] * input[s1];
         }
 
-        public static IEnumerable<double> GetLarger(IEnumerable<double> input, double target) {
-            var set1 = input.Where(x => x >= target);
-
-            if (set1.Count() < (input.Count()/2))
-                return input.Where(x=> x < target);
-            else
-                return set1;
-        }
-
-        public static IEnumerable<double> GetSmaller(List<double> input, int target) {
-            var set1 = input.Where(x => x >= target);
-
-            if (set1.Count() < (input.Count/2))
-                return set1;
-            else
-                return input.Where(x=> x < target);
-        }
-
         public static double decode(string input) {
             return decode(input.ToCharArray().Select(x => (x == '1' ? 1 : 0)).ToArray<int>());
         }
