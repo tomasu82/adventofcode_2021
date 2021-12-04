@@ -8,6 +8,7 @@ namespace day2
     {
         static void Main(string[] args)
         {
+            //1333204-92f28166
             var input = new List<(string dir, int mag)>();
 
             using (var reader = File.OpenText("input1.txt")) {
