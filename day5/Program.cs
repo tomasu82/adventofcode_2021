@@ -10,7 +10,11 @@ namespace day5
         static void Main(string[] args)
         {
             List<((int x, int y) p1, (int x, int y) p2)> lines = new List<((int x, int y) p1, (int x, int y) p2)>();
-
+            /* in order to do the large set, the approach must change.
+            collapse lines that are overlapping completely
+            after the collapsed lines, you should be able to tell which parts
+            of the lines did not overlap. you may need to do intersection check 
+            */
             using (var reader = File.OpenText("input.txt")) {
                 while (reader.Peek() != -1) {
                 var line = reader.ReadLine().Split(" -> ");
