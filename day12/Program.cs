@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace day9
+namespace day12
 {
     class Program
     {
@@ -84,13 +84,17 @@ namespace day9
                     else 
                         banned.Add(node_name[ni]);
                 }
-
+// to improve speed, ignore dead paths. 
+/*
+    to do this correctly, my guess is to look ahead. if you are double_dip, the next node you go to, it must have capital
+    children. otherwise, if it has none, it is a dead path.
+*/
                 for (int i=0 ; i<matrix.Length ; i++) {
                     if (matrix[ni][i] && 
                         node_name[i] != "start")
                     {
                         result += findEnd(matrix, node_name[i], node_idx, node_name, new List<string>(banned), path, dd);
-                        }
+                    }
                 }
 
                 return result;
