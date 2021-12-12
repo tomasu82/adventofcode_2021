@@ -49,52 +49,38 @@ namespace day12
                 matrix[node_idx[e[1]]][node_idx[e[0]]] = true;
             }
 
-            var paths = findEnd(matrix, "start", node_idx, node_name, new List<string>());
+            var paths = findEnd(matrix, "start", node_idx, node_name);
             Console.WriteLine(paths);
         }
         
         static int findEnd(bool[][] matrix, string node, 
                             Dictionary<string, int> node_idx, 
                             Dictionary<int, string> node_name,
-                            List<string> banned,
                             string path = "",
                             bool double_dip = false) {
-                
-                path += "," + node;
                 if (node == "end") {
-                    //Console.WriteLine(path);
+                    //Console.WriteLine(path + ",end");
                     return 1;
                 }
 
-                var ni = node_idx[node];
                 var result = 0;
-
                 var dd = double_dip;
 
-                if (node_name[ni][0] > (int)'Z' && 
-                    node_name[ni] != "start" && 
-                    node_name[ni] != "end") {
-                    
-                    if (banned.Contains(node_name[ni])) {
+                if (node[0] > (int)'Z') {
+                    if (path.Contains(node)) {
                         if (double_dip)
                             return 0;
 
                         dd = true;
                     }
-                    else 
-                        banned.Add(node_name[ni]);
-                }
-// to improve speed, ignore dead paths. 
-/*
-    to do this correctly, my guess is to look ahead. if you are double_dip, the next node you go to, it must have capital
-    children. otherwise, if it has none, it is a dead path.
-*/
-                for (int i=0 ; i<matrix.Length ; i++) {
-                    if (matrix[ni][i] && 
-                        node_name[i] != "start")
-                    {
-                        result += findEnd(matrix, node_name[i], node_idx, node_name, new List<string>(banned), path, dd);
+                    else {
+                        path += "," + node;
                     }
+                }
+
+                for (int i=0 ; i<matrix.Length ; i++) {
+                    if (matrix[node_idx[node]][i] && node_name[i] != "start")
+                        result += findEnd(matrix, node_name[i], node_idx, node_name, path, dd);
                 }
 
                 return result;
