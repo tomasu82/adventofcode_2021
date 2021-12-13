@@ -35,22 +35,31 @@ namespace day13
             (int x, int y) pageSize = (newPage.Max(d => d.x), newPage.Max(d => d.y));
 
             foreach (var f in folds) {
-                if (f.dir == 'y') {
-                    var up = new HashSet<(int, int)>(newPage.Where(dot => dot.y < f.fold));
-                    var down = newPage.Where(dot => dot.y > f.fold);
-                    up.UnionWith(down.Select(d => (d.x, pageSize.y - d.y)));
-
-                    newPage = up;
-                    pageSize.y = pageSize.y - f.fold - 1;
-                }
-                else {
-                    var left = new HashSet<(int,int)>(newPage.Where(dot => dot.x < f.fold));
-                    var right = newPage.Where(dot => dot.x > f.fold);
-                    left.UnionWith(right.Select(d=> (pageSize.x - d.x, d.y)));
-
-                    newPage = left;
-                    pageSize.x = pageSize.x - f.fold - 1;
-                }
+                newPage = newPage.Aggregate(new HashSet<(int x, int y)>(), (s, d) => 
+                {
+                    if (f.dir == 'x') {
+                        if (d.x < f.fold) {
+                            s.Add(d);
+                            return s;
+                        }
+                        else {
+                            s.Add((pageSize.x - d.x, d.y));
+                            return s;
+                        }
+                    }
+                    else {
+                        if (d.y < f.fold) {
+                            s.Add(d);
+                            return s;
+                        }
+                        else {
+                            s.Add((d.x,pageSize.y - d.y));
+                            return s;
+                        }
+                    }
+                });
+                if (f.dir == 'x') pageSize.x = pageSize.x - f.fold - 1;
+                else pageSize.y = pageSize.y - f.fold - 1;
             }
 
             Console.WriteLine(newPage.Count);
