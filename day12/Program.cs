@@ -47,8 +47,9 @@ namespace day12
                 matrix[node_idx[e[0]]][node_idx[e[1]]] = true;
                 matrix[node_idx[e[1]]][node_idx[e[0]]] = true;
             }
-
+            
             var paths = findEnd(matrix, "start", node_idx, node_name);
+
             Console.WriteLine(paths);
         }
         

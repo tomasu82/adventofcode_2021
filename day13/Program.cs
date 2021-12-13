@@ -37,27 +37,16 @@ namespace day13
             foreach (var f in folds) {
                 newPage = newPage.Aggregate(new HashSet<(int x, int y)>(), (s, d) => 
                 {
-                    if (f.dir == 'x') {
-                        if (d.x < f.fold) {
-                            s.Add(d);
-                            return s;
-                        }
-                        else {
-                            s.Add((pageSize.x - d.x, d.y));
-                            return s;
-                        }
-                    }
-                    else {
-                        if (d.y < f.fold) {
-                            s.Add(d);
-                            return s;
-                        }
-                        else {
-                            s.Add((d.x,pageSize.y - d.y));
-                            return s;
-                        }
-                    }
+                    if ((f.dir == 'x' && d.x < f.fold) || (f.dir == 'y' && d.y < f.fold)) 
+                        s.Add(d);
+                    else if (f.dir == 'x')
+                        s.Add((pageSize.x - d.x, d.y));
+                    else
+                        s.Add((d.x,pageSize.y - d.y));
+
+                    return s;
                 });
+
                 if (f.dir == 'x') pageSize.x = pageSize.x - f.fold - 1;
                 else pageSize.y = pageSize.y - f.fold - 1;
             }
