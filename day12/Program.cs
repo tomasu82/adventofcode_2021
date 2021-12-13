@@ -18,7 +18,6 @@ namespace day12
                 var idx = 0;
                 while (reader.Peek() > -1)
                 {
-
                     var input = reader.ReadLine();
                     edges.Add(input);
                     var nodes = input.Split('-');
