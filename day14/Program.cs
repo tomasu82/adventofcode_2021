@@ -13,9 +13,9 @@ namespace day14
             {
                 while (reader.Peek() > -1)
                 {
-		}
-	    }
- 
+                }
+            }
+
         }
     }
 }

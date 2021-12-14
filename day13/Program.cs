@@ -32,23 +32,21 @@ namespace day13
                 }
             }
 
-            (int x, int y) pageSize = (newPage.Max(d => d.x), newPage.Max(d => d.y));
-
             foreach (var f in folds) {
-                newPage = newPage.Aggregate(new HashSet<(int x, int y)>(), (s, d) => 
-                {
-                    if ((f.dir == 'x' && d.x < f.fold) || (f.dir == 'y' && d.y < f.fold)) 
-                        s.Add(d);
-                    else if (f.dir == 'x')
-                        s.Add((pageSize.x - d.x, d.y));
-                    else
-                        s.Add((d.x,pageSize.y - d.y));
+                 if (f.dir == 'y') {
+                     var up = new HashSet<(int, int)>(newPage.Where(dot => dot.y < f.fold));
+                     var down = newPage.Where(dot => dot.y > f.fold);
+                     up.UnionWith(down.Select(d => (d.x, ((f.fold * 2) - d.y))));
 
-                    return s;
-                });
+                     newPage = up;
+                 }
+                 else {
+                     var left = new HashSet<(int,int)>(newPage.Where(dot => dot.x < f.fold));
+                     var right = newPage.Where(dot => dot.x > f.fold);
+                     left.UnionWith(right.Select(d=> ((f.fold * 2) - d.x, d.y)));
 
-                if (f.dir == 'x') pageSize.x = pageSize.x - f.fold - 1;
-                else pageSize.y = pageSize.y - f.fold - 1;
+                     newPage = left;
+                     }
             }
 
             Console.WriteLine(newPage.Count);
